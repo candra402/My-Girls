@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Untuk Kekasihku Tercinta - 1 Agustus</title>
+    <title>Untuk Desti Tercinta - 1 Agustus</title>
+    <link rel="icon" type="image" href="https://a.top4top.io/p_3500vhex60.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -355,6 +356,12 @@
             0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -478,6 +485,7 @@
         ];
         
         let currentSongIndex = 0;
+        let heartInterval; // Variabel untuk menyimpan interval hearts
         
         // Fungsi untuk memutar lagu
         function playSong() {
@@ -486,12 +494,18 @@
             songTitle.textContent = song.title;
             audioPlayer.play();
             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            
+            // Mulai interval untuk membuat hearts
+            heartInterval = setInterval(createFloatingHearts, 800); // Buat hearts setiap 0.8 detik
         }
         
         // Fungsi untuk menghentikan lagu
         function pauseSong() {
             audioPlayer.pause();
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            
+            // Hentikan interval hearts
+            clearInterval(heartInterval);
         }
         
         // Toggle play/pause
@@ -510,6 +524,9 @@
             if (currentSongIndex >= songs.length) {
                 currentSongIndex = 0;
             }
+            
+            // Hentikan hearts sebelum memutar lagu baru
+            clearInterval(heartInterval);
             playSong();
         });
         
@@ -519,6 +536,9 @@
             if (currentSongIndex < 0) {
                 currentSongIndex = songs.length - 1;
             }
+            
+            // Hentikan hearts sebelum memutar lagu baru
+            clearInterval(heartInterval);
             playSong();
         });
         
@@ -559,6 +579,9 @@
             if (currentSongIndex >= songs.length) {
                 currentSongIndex = 0;
             }
+            
+            // Hentikan hearts sebelum memutar lagu baru
+            clearInterval(heartInterval);
             playSong();
         });
         
@@ -604,6 +627,19 @@
         
         // Mulai dengan lagu pertama
         pauseSong();
+        
+        // Tambahkan event listener untuk menampilkan hearts saat musik dimulai
+        audioPlayer.addEventListener('play', () => {
+            // Hapus interval sebelumnya jika ada
+            clearInterval(heartInterval);
+            // Mulai interval untuk hearts
+            heartInterval = setInterval(createFloatingHearts, 800);
+        });
+        
+        // Tambahkan event listener untuk menghentikan hearts saat musik dihentikan
+        audioPlayer.addEventListener('pause', () => {
+            clearInterval(heartInterval);
+        });
     </script>
 </body>
 </html>
